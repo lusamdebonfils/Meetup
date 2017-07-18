@@ -1,13 +1,17 @@
 <template>
   <v-app light>
-    <v-navigation-drawer v-model="sideNav">
+    <v-navigation-drawer v-model="sideNav" temporary>
       <v-list>
-        <v-list-tile>
+        <v-list-tile v-for="item in  menuItems" 
+        :key="item.title"
+        router
+        :to="item.link"
+        >
           <v-list-tile-action>
-            <v-icon>supervisor_account</v-icon>
+            <v-icon>{{ item.icon}}</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            Dev MeetUps
+            {{ item.title}}
           </v-list-tile-content>
         </v-list-tile>
 
@@ -16,18 +20,29 @@
     </v-navigation-drawer>
     <v-toolbar>
       <v-toolbar-side-icon @click.native.stop="sideNav = !sideNav" class="hidden-sm-and-up"></v-toolbar-side-icon>
-      <v-toolbar-title>MeetUp</v-toolbar-title>
+      <v-toolbar-title>
+        <router-link to="/" tag="span" style="cursor:pointer">
+        MeetUp
+        </router-link>
+        </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
-        <v-btn flat>
-          <v-icon left>supervisor_account</v-icon>
-          View MeetUps
+        <v-btn flat v-for="item in  menuItems" 
+        :key="item.title"
+        router
+        :to="item.link"
+        >
+          <v-icon left>{{ item.icon}}</v-icon>
+          {{ item.title}}
         </v-btn>
       
 
       </v-toolbar-items>
     </v-toolbar>
-    <main></main>
+    <main>
+    <router-view></router-view>
+
+    </main>
   </v-app>
 </template>
 
@@ -39,8 +54,13 @@
         clipped: false,
         drawer: true,
         fixed: false,
-        items: [
-          { icon: 'bubble_chart', title: 'Inspire' }
+        menuItems: [
+          { icon: 'supervisor_account', title: 'View MeetUps', link: '/meetups' },
+           { icon: 'room', title: 'Organize MeetUp', link: '/meetup/new' },
+            { icon: 'person', title: 'Profile', link: '/profile' },
+             { icon: 'face', title: 'Sing up', link: '/signup' },
+              { icon: 'lock_open', title: 'Sign in', link: '/signin' }
+
         ],
         miniVariant: false,
         right: true,
